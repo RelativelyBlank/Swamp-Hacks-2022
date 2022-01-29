@@ -49,7 +49,8 @@ def callback():
         request=token_request,
         audience=GOOGLE_CLIENT_ID
     )
-
+    session['email'] = id_info['email']
+    print(session)
     return id_info
 
 

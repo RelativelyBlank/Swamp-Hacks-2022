@@ -14,14 +14,15 @@ db = firestore.Client(project='alien-segment-337020')
 def upload_html_to_firestore(html_file_path):
     # check if session exists
     print(session)
-    if not session.get('logged_in'):
-        abort(401)
+    if 'email' not in session:
+        abort(403)
     # get the html file
     with open(html_file_path, "r") as html_file:
         html_file_content = html_file.read()
-        doc_ref = db.collection(u'users').document(u''.format(session["email"]))
+        doc_ref = db.collection(u'users').document(u'{}'.format(session["email"]))
         doc_ref.set({
-            u'postcard_data': u'{}'.format(html_file_content)
+            u'postcard_data': html_file_content
         })
+    return redirect(url_for('login'))
 
 # upload_html_to_firestore("cringe.html")
