@@ -20,7 +20,7 @@ def getReviewsLocation(location):
     # get the reviews from the core_gmaps module
     reviews = core_gmaps.getLocationReviews(location)
     # send the reviews to the client
-    return reviews
+    return jsonify(reviews)
 
 # make a get request at /location/{}/best_review
 @get_flask_blueprint.route('/location/<location>/best_review', methods=['GET'])
