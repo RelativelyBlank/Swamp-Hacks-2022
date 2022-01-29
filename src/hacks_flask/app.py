@@ -1,6 +1,7 @@
 from flask import Flask
 
 import core_gmaps
+import core_sentimenta
 app = Flask(__name__)
 
 @app.route("/")

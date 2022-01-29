@@ -59,6 +59,6 @@ def getLocationReviews(location):
 
 
 
-getLocationReviews('Whitney Museum of American Art')
+# getLocationReviews('Whitney Museum of American Art')
 
 # getLocationImage('New York, NY')
