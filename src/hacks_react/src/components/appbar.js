@@ -11,13 +11,18 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import tempLogo from '../assets/temp_logo.png';
+import { useNavigate } from 'react-router-dom';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['home', 'dashboard', 'contacts','Login/Register'];
+const settings = ['Logout'];
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [nav,setNav] = React.useState(null);
+  const isFirstRender = React.useRef(false);
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -33,20 +38,13 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
   return (
-    <AppBar position="static">
+    <AppBar color='transparent' position="static" elevation={0}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-          >
-            LOGO
-          </Typography>
-
+        <Box display="flex" alignItems="center">
+          <img style={{width:'10em'}}src={tempLogo} />
+        </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -83,20 +81,40 @@ const ResponsiveAppBar = () => {
               ))}
             </Menu>
           </Box>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
-          >
-            LOGO
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            <Box>
+                <Typography
+                    variant="h6"
+                    noWrap
+                    component="div"
+                    sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+                >
+                    LOGO
+                </Typography>
+            </Box>
+          <Box  justifyContent='right' sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={(e) => {
+                    handleCloseNavMenu();
+                    if(page === 'Login/Register') {
+                        navigate(`/login`)
+                        return;
+                    }else if(page === "home") {
+                        navigate(`/`);
+                        return;
+                    }
+                    navigate(`/${page}`);
+                }}
                 sx={{ my: 2, color: 'white', display: 'block' }}
+                style={{
+                    color: 'white',
+                    fontSize: '25px',
+                    fontWeight: 'bold',
+                    height: '60px',
+                    fontStyle:'bold',
+                    padding:'1em'
+                }}
               >
                 {page}
               </Button>
@@ -127,7 +145,10 @@ const ResponsiveAppBar = () => {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                  <Typography style={{
+                      fontSize: '1.5rem',
+                  }}
+                  textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>
