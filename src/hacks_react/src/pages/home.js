@@ -15,7 +15,7 @@ const Home = () => {
       }
     },[navigate]);
     return (
-        <div>
+        <div style={{textAlign:'center',justifyContent:'center'}}>
             <div style={{backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 100)), 
             url(${backgroundImage})`,
                 backgroundSize: 'cover',

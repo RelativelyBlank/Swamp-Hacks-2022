@@ -14,14 +14,13 @@ import MenuItem from '@mui/material/MenuItem';
 import tempLogo from '../assets/temp_logo.png';
 import { useNavigate } from 'react-router-dom';
 
-const pages = ['home', 'dashboard', 'contacts','Login/Register'];
+// if logged in, add home, else return dashboard
+const pages = ['home', ,'dashboard','contacts','Login/Register'];
 const settings = ['Logout'];
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [nav,setNav] = React.useState(null);
-  const isFirstRender = React.useRef(false);
   const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
@@ -76,6 +75,13 @@ const ResponsiveAppBar = () => {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
+                  {/* if currently logged in, return  <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              </IconButton>
+            </Tooltip>
+            else <Typography textAlign="center">{page}</Typography>
+              */}
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -121,12 +127,14 @@ const ResponsiveAppBar = () => {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0 }}>\
+            {/*}
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
+              */}
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
