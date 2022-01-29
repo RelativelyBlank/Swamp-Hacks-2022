@@ -2,6 +2,7 @@ from flask import Flask
 
 import core_gmaps
 import core_sentimenta
+import core_twilio
 import blueprint_get
 app = Flask(__name__)
 
