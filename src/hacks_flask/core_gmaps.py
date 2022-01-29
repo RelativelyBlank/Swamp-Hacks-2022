@@ -30,6 +30,7 @@ def getLocationImage(location):
         for chunk in photo:
             if chunk:
                 photo_file.write(chunk)
+    return '{}.jpg'.format(location)
 
 def getLocationReviews(location):
     # turn location into lat/long

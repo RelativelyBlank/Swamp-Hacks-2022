@@ -68,4 +68,4 @@ def find_best_review(reviews):
 
     return [best_review, best_score, best_magnitude]
 
-print(find_best_review(core_gmaps.getLocationReviews("Whitney Museum of American Art")))
+# print(find_best_review(core_gmaps.getLocationReviews("Whitney Museum of American Art")))

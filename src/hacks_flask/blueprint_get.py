@@ -5,10 +5,10 @@ import core_gmaps
 get_flask_blueprint = Blueprint('get_blueprint', __name__, template_folder='templates')
 
 # make a get request at /location/{}
-@get_flask_blueprint.route('/location/<location>')
+@get_flask_blueprint.route('/location/<location>/image', methods=['GET'])
 def getImageLocation(location):
     image_name = '{}.jpg'.format(location)
     # get the image from the core_gmaps module
-    image = core_gmaps.getImage(location)
+    image = core_gmaps.getLocationImage(location)
     # send the image to the client
     return send_file(image, mimetype='image/jpeg')
