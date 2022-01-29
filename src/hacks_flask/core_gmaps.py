@@ -1,20 +1,32 @@
-# make a function that returns the image of a location on google maps
-# import googlemaps
-from googlemaps import Client
-from googlemaps.geocoding import geocode
+import googlemaps
+import pandas as pd
 
-gmaps = Client(key="AIzaSyBluRCVit_GL-1T7B_lKyKOX1cjvTObV7Q")
+api_key = 'AIzaSyBluRCVit_GL-1T7B_lKyKOX1cjvTObV7Q'
+map_client = googlemaps.Client(api_key)
+
 
 def getLocationImage(location):
-    global gmaps
-    # geocode the location
-    result = gmaps.geocode(location)
-    # get the lat and lng of the location
-    lat = result[0]['geometry']['location']['lat']
-    lng = result[0]['geometry']['location']['lng']
-    # get the image from the places api
-    image = gmaps.places_photo(location, max_width=1000, max_height=1000)
+    # turn location into lat/long
+    geocode_result = map_client.geocode(location)
+    lat = geocode_result[0]['geometry']['location']['lat']
+    lng = geocode_result[0]['geometry']['location']['lng']
+    response = map_client.places(
+        location=(lat, lng),
+        query = location,
+    )
+    results = response['results']
+    # df = pd.DataFrame(results)
+    # df.to_excel('list lol.xlsx', index=False)
+    lol = map_client.place(results[0]['place_id'])
+    # df = pd.DataFrame([lol['result']])
+    # df.to_excel('list lol2.xlsx', index=False)
+    photo_reference = lol['result']['photos'][0]['photo_reference']
+    # download the image using places_photo and photo_reference
+    photo = map_client.places_photo(photo_reference, max_width=1000, max_height=1000)
+    # save the image to disk
+    with open('{}.jpg'.format(location), 'wb') as photo_file:
+        for chunk in photo:
+            if chunk:
+                photo_file.write(chunk)
 
-
-im = getLocationImage("New York")
-print(im)
+getLocationImage('New York, NY')
