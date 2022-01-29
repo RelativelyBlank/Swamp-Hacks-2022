@@ -1,5 +1,7 @@
 import googlemaps
 import pandas as pd
+import requests
+from urllib.parse import urlencode
 
 api_key = 'AIzaSyBluRCVit_GL-1T7B_lKyKOX1cjvTObV7Q'
 map_client = googlemaps.Client(api_key)
@@ -29,4 +31,34 @@ def getLocationImage(location):
             if chunk:
                 photo_file.write(chunk)
 
-getLocationImage('New York, NY')
+def getLocationReviews(location):
+    # turn location into lat/long
+    geocode_result = map_client.geocode(location)
+    lat = geocode_result[0]['geometry']['location']['lat']
+    lng = geocode_result[0]['geometry']['location']['lng']
+    response = map_client.places(
+        location=(lat, lng),
+        query = location,
+    )
+    results = response['results']
+    # df = pd.DataFrame(results)
+    # df.to_excel('list lol.xlsx', index=False)
+    place_id = results[0]['place_id']
+    place_data = map_client.place(place_id, language='en')['result']
+
+    # check if reviews exist
+    if 'reviews' in place_data:
+        # get reviews
+        reviews = place_data['reviews']
+    else:
+        reviews = []
+
+    print(reviews)
+    return reviews
+
+
+
+
+getLocationReviews('Whitney Museum of American Art')
+
+# getLocationImage('New York, NY')
