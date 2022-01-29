@@ -1,5 +1,5 @@
 from google.cloud import firestore
-
+from flask import Blueprint, render_template, redirect, url_for, request, flash, session, abort, current_app
 # read https://cloud.google.com/firestore/docs/quickstart-servers#firestore_setup_dataset_pt1-python
 
 import os
@@ -9,11 +9,19 @@ import os
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.abspath("firestore_keys.json")
 db = firestore.Client(project='alien-segment-337020')
 
+# upload an html file to firestore
 
-doc_ref = db.collection(u'users').document(u'aturing')
-doc_ref.set({
-    u'first': u'Alan',
-    u'middle': u'Mathison',
-    u'last': u'Turing',
-    u'born': 1912
-})
+def upload_html_to_firestore(html_file_path):
+    # check if session exists
+    print(session)
+    if not session.get('logged_in'):
+        abort(401)
+    # get the html file
+    with open(html_file_path, "r") as html_file:
+        html_file_content = html_file.read()
+        doc_ref = db.collection(u'users').document(u''.format(session["email"]))
+        doc_ref.set({
+            u'postcard_data': u'{}'.format(html_file_content)
+        })
+
+# upload_html_to_firestore("cringe.html")
