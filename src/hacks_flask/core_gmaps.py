@@ -26,7 +26,7 @@ def getLocationImage(location):
     # download the image using places_photo and photo_reference
     photo = map_client.places_photo(photo_reference, max_width=1000, max_height=1000)
     # save the image to disk
-    with open('{}.jpg'.format(location), 'wb') as photo_file:
+    with open('imgs/{}.jpg'.format(location), 'wb') as photo_file:
         for chunk in photo:
             if chunk:
                 photo_file.write(chunk)

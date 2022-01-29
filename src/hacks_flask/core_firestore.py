@@ -11,19 +11,39 @@ db = firestore.Client(project='alien-segment-337020')
 
 # upload an html file to firestore
 
-def upload_image_to_firebase(image_file_path):
+def upload_image_to_firebase(image_file_path, email):
     # check if session exists
-    print(session)
-    if 'email' not in session:
-        abort(403)
-
     with open(image_file_path, "rb") as image_file:
-        doc_ref = db.collection(u'users').document(u'{}'.format(session["email"]))
+        file_name = os.path.basename(image_file_path)
+        doc_ref = db.collection(u'users').document(u'{}'.format(email))
+        doc_ref
         doc_ref.set({
-            u'postcard_data': image_file.read()
-        })
+            u'postcard_{}_data'.format(file_name): image_file.read(),
+            u'postcard_{}_name'.format(file_name): file_name,
+        }, merge=True)
 
 #     return an html response that indicates the upload was successful
     return "upload successful"
 
+def get_image_from_firebase(image_name, email):
+    # check if session exists
+
+    doc_ref = db.collection(u'users').document(u'{}'.format(email))
+    doc_ref.get().to_dict()
+    file_name = image_name.split("_")[1]
+    with open('imgs/{}'.format(file_name), "wb") as image_file:
+        image_file.write(doc_ref.get().to_dict()[image_name])
+    return 'imgs/{}'.format(file_name)
 # upload_html_to_firestore("bucket.jpg")
+
+# make a function that gets all the imagenames with email from firestore
+def get_image_names_from_firebase(email):
+    # check if session exists
+    doc_ref = db.collection(u'users').document(u'{}'.format(email))
+    dic = doc_ref.get().to_dict()
+    # make a list of all the image names
+    image_names = []
+    for key in dic.keys():
+        if "_name" in key:
+            image_names.append(dic[key])
+    return image_names
