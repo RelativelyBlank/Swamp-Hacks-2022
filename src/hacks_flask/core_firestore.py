@@ -1,5 +1,6 @@
 from google.cloud import firestore
 
+# read https://cloud.google.com/firestore/docs/quickstart-servers#firestore_setup_dataset_pt1-python
 
 import os
 # The `project` parameter is optional and represents which project the client
@@ -7,6 +8,7 @@ import os
 # project inferred from the environment.
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.abspath("firestore_keys.json")
 db = firestore.Client(project='alien-segment-337020')
+
 
 doc_ref = db.collection(u'users').document(u'aturing')
 doc_ref.set({
