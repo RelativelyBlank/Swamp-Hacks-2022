@@ -11,18 +11,19 @@ db = firestore.Client(project='alien-segment-337020')
 
 # upload an html file to firestore
 
-def upload_html_to_firestore(html_file_path):
+def upload_image_to_firebase(image_file_path):
     # check if session exists
     print(session)
     if 'email' not in session:
         abort(403)
-    # get the html file
-    with open(html_file_path, "r") as html_file:
-        html_file_content = html_file.read()
+
+    with open(image_file_path, "rb") as image_file:
         doc_ref = db.collection(u'users').document(u'{}'.format(session["email"]))
         doc_ref.set({
-            u'postcard_data': html_file_content
+            u'postcard_data': image_file.read()
         })
-    return redirect(url_for('login'))
 
-# upload_html_to_firestore("cringe.html")
+#     return an html response that indicates the upload was successful
+    return "upload successful"
+
+# upload_html_to_firestore("bucket.jpg")

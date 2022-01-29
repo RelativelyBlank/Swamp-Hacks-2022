@@ -9,4 +9,4 @@ post_flask_blueprint = Blueprint('post_blueprint', __name__, template_folder='te
 # define a route to /post/upload_file
 @post_flask_blueprint.route('/post/upload_file', methods=['GET', 'POST'])
 def upload_file():
-    core_firestore.upload_html_to_firestore('cringe.html')
+    core_firestore.upload_image_to_firebase('Tiananmen.jpg')
