@@ -25,9 +25,10 @@ export default function CreatePostcard() {
     const [location, setLocation] = React.useState();
     const [date, setDate] = React.useState();
 
-    const getReview = async() => {
-        return await axios.get(`http://127.0.0.1:5000/location/${location}}/image`).then(()=> {
 
+    const getReview = async() => {
+        return await axios.get(`http://127.0.0.1:5000/location/${location}/image`).then((val)=> {
+          console.log(val)
             }
         );
     }
@@ -36,16 +37,15 @@ export default function CreatePostcard() {
 
     }
 
-    const submitPostcard = () => {
-       //get image
-       //get review
-       //edit email and date
-
+    const submitPostcard = async() => {
+      return await getReview().then((val)=> {});
     }
     const sendPostcard = async () => {
-
+      //send postcard to server
     }
+    React.useEffect(()=> {
 
+    },[])
   return (
     <div style={{backgroundImage:`url(${background})`, minHeight:'100vh'}}>
       <AppBar color="transparent" position="static" >
@@ -75,8 +75,11 @@ export default function CreatePostcard() {
                 paddingBottom:'100px',
                 }}>
                     
-                <div style={{justifyContent:'right',textAlign:'right'}}>
-                    <img style={{maxHeight:'130px'}}src ={tempSeal} />
+                <div style={{display:'flex'}}>
+                <Typography style={{float:'left',textAlign:'justify', width:'100%',marginLeft:'50px'}}>Recipient</Typography>
+                <Typography style={{float:'left',textAlign:'justify', width:'100%',marginLeft:'50px'}}>Date</Typography>
+                <Typography style={{float:'left',textAlign:'justify', width:'100%',marginLeft:'50px'}}>Location</Typography>
+                <img style={{maxHeight:'130px'}}src ={tempSeal} />
                 </div>
             <div>
                 <div style={{display:'flex'}}>
@@ -109,7 +112,6 @@ export default function CreatePostcard() {
         <Typography style={{textAlign:'center',paddingTop:'100px', fontSize:'30px'}}>Input Values</Typography>
         <div style={{paddingTop:'30px'}}>
         <TextField
-            id="outlined-helperText"
             label='Recipient Email'
             onChange={(e)=>{setEmail(e.target.value)}}
             required
@@ -117,7 +119,6 @@ export default function CreatePostcard() {
           </div>
           <div style={{paddingTop:'30px'}}>
         <TextField
-            id="outlined-helperText"
             label='Location'
             onChange={(e)=>{setLocation(e.target.value)}}
             required
@@ -125,7 +126,6 @@ export default function CreatePostcard() {
           </div>
           <div style={{paddingTop:'30px'}}>
         <TextField
-            id="outlined-helperText"
             label='Date'
             onChange={(e)=>{setDate(e.target.value)}}
             required
@@ -135,10 +135,10 @@ export default function CreatePostcard() {
 
           </Box>
           <div style={{justifyContent:'space-between'}}>
-            <Button variant="contained" color="primary" style={{marginTop:'20px',marginRight:'30px'}} onClick={sendPostcard}>
+            <Button variant="contained" color="primary" style={{marginTop:'20px',marginRight:'30px'}} onClick={submitPostcard}>
               Submit Edit 
             </Button>
-            <Button variant="contained" color="primary" style={{marginTop:'20px', marginLeft:'30px'}} onClick={submitPostcard}>
+            <Button variant="contained" color="primary" style={{marginTop:'20px', marginLeft:'30px'}} onClick={sendPostcard}>
               Send Postcard
             </Button>
           </div>
