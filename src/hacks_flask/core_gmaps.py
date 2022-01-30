@@ -27,10 +27,12 @@ def getLocationImage(location):
     photo = map_client.places_photo(photo_reference, max_width=1000, max_height=1000)
     # save the image to disk
     with open('imgs/{}.jpg'.format(location), 'wb') as photo_file:
-        for chunk in photo:
-            if chunk:
-                photo_file.write(chunk)
-    return os.path.abspath('imgs/"{}".jpg'.format(location))
+        with open('../hacks_react/src/assets/{}.jpg'.format(location), 'wb') as photo_file2:
+            for chunk in photo:
+                if chunk:
+                    photo_file.write(chunk)
+                    photo_file2.write(chunk)
+    return os.path.abspath('../hacks_react/src/assets/{}.jpg'.format(location))
 
 def getLocationReviews(location):
     # turn location into lat/long

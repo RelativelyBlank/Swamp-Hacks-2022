@@ -8,7 +8,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import { useNavigate } from 'react-router-dom';
 import postcardBackground from '../assets/postcard_back.jpg';
-import tempSeal from '../assets/seal_temp.jpg';
+import tempSeal from '../assets/seal.png';
 import tempImage from '../assets/temp_image_postcard.jpg';
 import { Button, TextField } from '@mui/material';
 import background from '../assets/postercards_back.jpg'
@@ -28,17 +28,24 @@ export default function CreatePostcard() {
 
     const getLocation = async() => {
         return await axios.get(`http://127.0.0.1:5000/location/${location}/image`).then((val)=> {
-          console.log(val)
-            }
-        );
+          // log the current directory
+          
+          setImgLink(val.data);
+        })
     }
 
     const getReview = async() => {
-
+      return await axios.get(`http://127.0.0.1:5000/location/${location}/best_review`).then((val)=> {
+        setReview(val.data[0]);
+        console.log(review)
+      })
     }
 
     const submitPostcard = async() => {
-      return await getLocation();
+      await getLocation();
+      await getReview().then(()=>{
+        console.log(review)
+      })
     }
     const sendPostcard = async () => {
       //send postcard to server
@@ -76,21 +83,18 @@ export default function CreatePostcard() {
                 }}>
                     
                 <div style={{display:'flex'}}>
-                <Typography style={{float:'left',textAlign:'justify', width:'100%',marginLeft:'50px'}}>Recipient</Typography>
-                <Typography style={{float:'left',textAlign:'justify', width:'100%',marginLeft:'50px'}}>Date</Typography>
-                <Typography style={{float:'left',textAlign:'justify', width:'100%',marginLeft:'50px'}}>Location</Typography>
+                <Typography style={{float:'left',textAlign:'justify', width:'100%',marginLeft:'50px', fontSize:'20px', fontWeight:'bold'}}>{email}</Typography>
+                <Typography style={{float:'left',textAlign:'justify', width:'100%',marginLeft:'50px', fontSize:'20px', fontWeight:'bold'}}>{date}</Typography>
+                <Typography style={{float:'left',textAlign:'justify', width:'100%',marginLeft:'50px', fontSize:'20px', fontWeight:'bold'}}>{location}</Typography>
                 <img style={{maxHeight:'130px'}}src ={tempSeal} />
                 </div>
             <div>
                 <div style={{display:'flex'}}>
-                    <img src={tempImage} style={{
-                        backgroundImage: `url(${tempImage})`,
-                        backgroundSize: 'contain',
-                        backgroundRepeat: 'no-repeat',
+                    <img src={require('../assets/empire state building.jpg')} style={{
                         height: '300px',
                         width: '400px',
                         borderRadius: '10px'}} />
-                    <Typography style={{float:'right',textAlign:'justify', width:'100%',marginLeft:'50px'}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Typography>
+                    <Typography style={{float:'right',textAlign:'justify', width:'100%',marginLeft:'50px'}}>{`"${review?.text}" -${review?.author_name}`}</Typography>
                     </div>
                 </div>
                 <div style={{justifyContent:'right',textAlign:'right'}}>

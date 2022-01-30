@@ -15,7 +15,6 @@ def getImageLocation(location):
     # get the image from the core_gmaps module
     image = core_gmaps.getLocationImage(location)
     print(jsonify(image))
-    image = {'path': image}
     print(image)
     # send the image to the client
     return jsonify(image)
