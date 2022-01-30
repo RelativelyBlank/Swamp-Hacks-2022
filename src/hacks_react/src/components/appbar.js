@@ -11,13 +11,13 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import tempLogo from '../assets/temp_logo.png';
+import tempLogo from '../assets/seal.png';
 import { useNavigate } from 'react-router-dom';
 
 // if logged in, add home, else return dashboard
 var pages;
 if(localStorage.getItem('token') !== null) {
-  pages = ['home','dashboard','contacts',];
+  pages = ['home','dashboard',];
 } else {
   pages = ['home', 'contacts','Login'];
 }
@@ -132,14 +132,7 @@ const ResponsiveAppBar = () => {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>\
-            {/*}
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-              */}
+          <Box sx={{ flexGrow: 0 }}>
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
