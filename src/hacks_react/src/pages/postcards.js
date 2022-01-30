@@ -12,6 +12,7 @@ import tempSeal from '../assets/seal_temp.jpg';
 import tempImage from '../assets/temp_image_postcard.jpg';
 import { requirePropFactory, TextField } from '@mui/material';
 import background from '../assets/postercards_back.jpg'
+import axios from 'axios';
 
 export default function Postcards() {
     /*
@@ -25,18 +26,8 @@ export default function Postcards() {
     const navigate = useNavigate();
     const [navigateBack, setNavigateBack] = React.useState();
     const isFirstRender = React.useRef(false);
-    const val = () => {
-      if(localStorage.getItem('searched') !== null) 
-        return (
-            <div>
-              <img style={{width:'200px', marginRight:'30px'}}src={require(`../assets/1.png`)}/>
-              <img style={{width:'200px', marginRight:'30px'}}src={require(`../assets/2.png`)}/>
-              <img style={{width:'200px', marginRight:'30px'}}src={require(`../assets/3.png`)}/>
-              <img style={{width:'200px', marginRight:'30px'}}src={require(`../assets/4.png`)}/>
-            </div>
-
-        ) 
-        return (<div></div>)
+    const getPostcard = async () => {
+      return await axios.get(`http://127.0.0.1:5000/get/${localStorage.getItem('token')}/get_images`)
     }
   return (
     <div style={{backgroundImage:`url(${background})`, minHeight:'100vh'}}>
@@ -51,7 +42,7 @@ export default function Postcards() {
         </Toolbar>
       </AppBar>
       <div style={{justifyContent:'center',textAlign:'center'}}>
-        {val()}
+        {getPostcard()}
     </div>
     </div>
   );

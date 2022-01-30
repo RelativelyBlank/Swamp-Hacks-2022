@@ -26,10 +26,7 @@ def upload_image_to_firebase(image_file_path, email):
 #     return an html response that indicates the upload was successful
     return "upload successful"
 
-upload_image_to_firebase(os.path.abspath('imgs/eiffel tower.jpg'), 'salvadoraleguas@gmail.com')
-upload_image_to_firebase(os.path.abspath('imgs/The University of Florida.jpg'), 'salvadoraleguas@gmail.com')
-upload_image_to_firebase(os.path.abspath('imgs/tianmen square.jpg'), 'salvadoraleguas@gmail.com')
-upload_image_to_firebase(os.path.abspath('imgs/empire state building.jpg'), 'salvadoraleguas@gmail.com')
+
 
 def get_image_from_firebase(image_name, email):
     # check if session exists
