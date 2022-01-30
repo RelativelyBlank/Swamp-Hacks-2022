@@ -2,7 +2,8 @@ from google.cloud import firestore
 from flask import Blueprint, render_template, redirect, url_for, request, flash, session, abort, current_app
 # read https://cloud.google.com/firestore/docs/quickstart-servers#firestore_setup_dataset_pt1-python
 
-import os
+import os, sys
+sys.path.append(os.path.abspath(''))
 # The `project` parameter is optional and represents which project the client
 # will act on behalf of. If not supplied, the client falls back to the default
 # project inferred from the environment.
@@ -26,6 +27,10 @@ def upload_image_to_firebase(image_file_path, email):
     return "upload successful"
 
 upload_image_to_firebase(os.path.abspath('imgs/eiffel tower.jpg'), 'salvadoraleguas@gmail.com')
+upload_image_to_firebase(os.path.abspath('imgs/The University of Florida.jpg'), 'salvadoraleguas@gmail.com')
+upload_image_to_firebase(os.path.abspath('imgs/tianmen square.jpg'), 'salvadoraleguas@gmail.com')
+upload_image_to_firebase(os.path.abspath('imgs/empire state building.jpg'), 'salvadoraleguas@gmail.com')
+
 def get_image_from_firebase(image_name, email):
     # check if session exists
 
