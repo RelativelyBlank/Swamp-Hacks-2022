@@ -1,4 +1,6 @@
 # import flask and blueprints
+import os.path
+
 from flask import Blueprint, render_template, request, redirect, url_for, send_file, jsonify, abort
 import core_gmaps
 import core_sentimenta
@@ -17,7 +19,8 @@ def upload_file():
         json_data = request.get_json()
         print(json_data)
         # get the image location from the json data
-        image_location = json_data['image_location']
+        image_location = os.path.abspath('imgs/' + json_data['image_location'])
+        # get the image caption from t
         core_firestore.upload_image_to_firebase(image_location, json_data['email'])
         return jsonify({"message": "Image uploaded successfully"})
 
