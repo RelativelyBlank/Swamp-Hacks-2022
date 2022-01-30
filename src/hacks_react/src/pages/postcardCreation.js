@@ -23,9 +23,9 @@ export default function CreatePostcard() {
     const [imgLink, setImgLink] = React.useState();
     const [review, setReview] = React.useState({text:"", author_name:""});
     const [email, setEmail] = React.useState();
-    const [number, setNumber] = React.useState();
     const [location, setLocation] = React.useState('transparent_background');
     const [date, setDate] = React.useState();
+    const [number, setNumber] = React.useState();
     const refSelf = React.useRef();
 
     const getLocation = async() => {
@@ -98,7 +98,7 @@ export default function CreatePostcard() {
                 }}>
                     
                 <div style={{display:'flex'}}>
-                <p style={{float:'left',textAlign:'justify', width:'100%',marginLeft:'50px', fontSize:'20px', fontWeight:'bold'}}>{email}</p>
+                <p style={{float:'left',textAlign:'justify', width:'100%',marginLeft:'50px', fontSize:'20px', fontWeight:'bold'}}>{number}</p>
                 <p style={{float:'left',textAlign:'justify', width:'100%',marginLeft:'50px', fontSize:'20px', fontWeight:'bold'}}>{date}</p>
                 <p style={{float:'left',textAlign:'justify', width:'100%',marginLeft:'50px', fontSize:'20px', fontWeight:'bold'}}>{location!=='transparent_background' ? location : ""}</p>
                 <img style={{maxHeight:'130px'}}src ={tempSeal} />
@@ -133,12 +133,6 @@ export default function CreatePostcard() {
 
         <Typography style={{textAlign:'center',paddingTop:'100px', fontSize:'30px'}}>Input Values</Typography>
         <div style={{paddingTop:'30px'}}>
-        <TextField
-            label='Recipient Email'
-            onChange={(e)=>{setEmail(e.target.value)}}
-            required
-          />
-          </div>
           <div style={{paddingTop:'30px'}}>
         <TextField
             label='Recipient Phone Number'
@@ -175,6 +169,7 @@ export default function CreatePostcard() {
             </Button>
           </div>
           </div>
+        </div>
         </div>
         </div>
   );
