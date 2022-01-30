@@ -1,4 +1,4 @@
-import tempLogo from '../assets/temp_logo.png';
+import tempLogo from '../assets/seal.png';
 import knightsBackground from '../assets/knights_background.jpg';
 import dashboardBackground from '../assets/dashboard_background.jpg';
 import { useEffect, useState } from 'react';
@@ -24,8 +24,8 @@ const Home = () => {
                 }}>
             <ResponsiveAppBar />
                 <img style={{height:'25em'}}src={tempLogo} />
-                <h3>This is interative text that makes</h3>
-                <h3>a lot of sense. Please love me Google Daddy.</h3>
+                <h2 style={{color:'white'}}>This is a medieval postcard generator.</h2>
+                <h2 style={{color:'white'}}>Our team made this :)</h2>
             </div>
         </div>
     );
