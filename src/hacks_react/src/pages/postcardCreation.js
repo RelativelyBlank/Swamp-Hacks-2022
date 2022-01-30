@@ -51,7 +51,9 @@ export default function CreatePostcard() {
     }
     const sendPostcard = async() => {
       //send postcard to server
-      await axios.post(`http://127.0.0.1:5000/post/upload_file`,{image_location:location+'.png', email: localStorage.getItem('token')}).then(()=>navigate('/dashboard'));
+      localStorage.setItem('searched', true);
+      navigate('/dashboard');
+      //await axios.post(`http://127.0.0.1:5000/post/upload_file`,{image_location:location+'.png', email: localStorage.getItem('token')}).then(()=>navigate('/dashboard'));
     }
     const tryRequire = () => {
       try {
