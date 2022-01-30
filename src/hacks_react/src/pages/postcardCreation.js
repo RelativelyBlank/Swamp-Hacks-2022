@@ -23,6 +23,7 @@ export default function CreatePostcard() {
     const [imgLink, setImgLink] = React.useState();
     const [review, setReview] = React.useState({text:"", author_name:""});
     const [email, setEmail] = React.useState();
+    const [number, setNumber] = React.useState();
     const [location, setLocation] = React.useState('transparent_background');
     const [date, setDate] = React.useState();
     const refSelf = React.useRef();
@@ -50,7 +51,7 @@ export default function CreatePostcard() {
     }
     const sendPostcard = async() => {
       //send postcard to server
-      return await axios.post(`http://127.0.0.1:5000/post/upload_file`,{image_location:location+'.png', email: localStorage.getItem('token')});
+      await axios.post(`http://127.0.0.1:5000/post/upload_file`,{image_location:location+'.png', email: localStorage.getItem('token')}).then(()=>navigate('/dashboard'));
     }
     const tryRequire = () => {
       try {
@@ -138,6 +139,13 @@ export default function CreatePostcard() {
           </div>
           <div style={{paddingTop:'30px'}}>
         <TextField
+            label='Recipient Phone Number'
+            onChange={(e)=>{setNumber(e.target.value)}}
+            required
+          />
+          </div>
+          <div style={{paddingTop:'30px'}}>
+        <TextField
             label='Location'
             onChange={(e)=>{
               setSearched(false);
@@ -153,14 +161,14 @@ export default function CreatePostcard() {
             required
           />
           </div>
-          <Box sx={{height:'20vh'}}>
+          <Box sx={{height:'5vh'}}>
 
           </Box>
           <div style={{justifyContent:'space-between'}}>
-            <Button variant="contained" color="primary" style={{marginTop:'20px',marginRight:'30px'}} onClick={submitPostcard}>
+            <Button variant="outlined" color="primary" style={{marginTop:'',marginRight:'30px',fontWeight:'bold', color:'black'}} onClick={submitPostcard}>
               Submit Edit 
             </Button>
-            <Button variant="contained" color="primary" style={{marginTop:'20px', marginLeft:'30px'}} onClick={sendPostcard}>
+            <Button variant="outlined" color="primary" style={{marginTop:'', marginLeft:'30px',fontWeight:'bold', color:'black'}} onClick={sendPostcard}>
               Send Postcard
             </Button>
           </div>
