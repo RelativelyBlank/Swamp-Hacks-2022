@@ -26,19 +26,19 @@ export default function CreatePostcard() {
     const [date, setDate] = React.useState();
 
 
-    const getReview = async() => {
+    const getLocation = async() => {
         return await axios.get(`http://127.0.0.1:5000/location/${location}/image`).then((val)=> {
           console.log(val)
             }
         );
     }
 
-    const getLocation = async() => {
+    const getReview = async() => {
 
     }
 
     const submitPostcard = async() => {
-      return await getReview().then((val)=> {});
+      return await getLocation();
     }
     const sendPostcard = async () => {
       //send postcard to server

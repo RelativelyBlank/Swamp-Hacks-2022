@@ -1,4 +1,5 @@
 from flask import Flask, session, abort, redirect
+from flask_cors import CORS, cross_origin
 import sys, os
 import datetime
 # ==== INSTRUCTIONS ====
@@ -32,6 +33,8 @@ import blueprint_auth
 import blueprint_post
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 app.permanent_session_lifetime = datetime.timedelta(days=365)
 

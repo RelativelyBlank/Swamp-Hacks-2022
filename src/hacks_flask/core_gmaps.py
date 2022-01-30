@@ -1,6 +1,6 @@
 import googlemaps
 import pandas as pd
-import requests
+import requests, os
 from urllib.parse import urlencode
 
 api_key = 'AIzaSyBluRCVit_GL-1T7B_lKyKOX1cjvTObV7Q'
@@ -30,7 +30,7 @@ def getLocationImage(location):
         for chunk in photo:
             if chunk:
                 photo_file.write(chunk)
-    return 'imgs/{}.jpg'.format(location)
+    return os.path.abspath('imgs/"{}".jpg'.format(location))
 
 def getLocationReviews(location):
     # turn location into lat/long

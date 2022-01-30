@@ -3,22 +3,26 @@ from flask import Blueprint, render_template, request, redirect, url_for, send_f
 import core_gmaps
 import core_sentimenta
 import core_firestore
+from flask_cors import cross_origin
 # make a flask blueprint
 get_flask_blueprint = Blueprint('get_blueprint', __name__, template_folder='templates')
 
 # make a get request at /location/{}
 @get_flask_blueprint.route('/location/<location>/image', methods=['GET'])
+@cross_origin()
 def getImageLocation(location):
     image_name = '{}.jpg'.format(location)
-    print(image_name)
     # get the image from the core_gmaps module
     image = core_gmaps.getLocationImage(location)
+    print(jsonify(image))
+    image = {'path': image}
     print(image)
     # send the image to the client
-    return send_file(image, mimetype='image/jpeg')
+    return jsonify(image)
 
 # make a get request at /location/{}/reviews
 @get_flask_blueprint.route('/location/<location>/reviews', methods=['GET'])
+@cross_origin()
 def getReviewsLocation(location):
     # get the reviews from the core_gmaps module
     reviews = core_gmaps.getLocationReviews(location)
@@ -27,6 +31,7 @@ def getReviewsLocation(location):
 
 # make a get request at /location/{}/best_review
 @get_flask_blueprint.route('/location/<location>/best_review', methods=['GET'])
+@cross_origin()
 def getBestReviewLocation(location):
     # get the best review from the core_gmaps modul
     reviews = core_gmaps.getLocationReviews(location)
@@ -35,6 +40,7 @@ def getBestReviewLocation(location):
     return jsonify(best_review)
 
 @get_flask_blueprint.route('/get/<email>/get_file/<image_name>', methods=['GET', 'POST'])
+@cross_origin()
 def recover_image_from_firebase(email, image_name):
     if request.method == 'GET':
         image_file = core_firestore.get_image_from_firebase("postcard_{}_data".format(image_name), email)
@@ -44,6 +50,7 @@ def recover_image_from_firebase(email, image_name):
 
 # define a route to get all the image names from firebase with given email
 @get_flask_blueprint.route('/get/<email>/get_images', methods=['GET', 'POST'])
+@cross_origin()
 def recover_images_from_firebase(email):
     if request.method == 'GET':
         images = core_firestore.get_image_names_from_firebase(email)

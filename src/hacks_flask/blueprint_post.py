@@ -3,6 +3,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, send_f
 import core_gmaps
 import core_sentimenta
 import core_firestore
+from flask_cors import CORS, cross_origin
 # make a flask blueprint
 post_flask_blueprint = Blueprint('post_blueprint', __name__, template_folder='templates')
 
