@@ -19,40 +19,53 @@ export default function CreatePostcard() {
     const navigate = useNavigate();
     const [navigateBack, setNavigateBack] = React.useState();
     const isFirstRender = React.useRef(false);
+    const [searched, setSearched] = React.useState(false);
     const [imgLink, setImgLink] = React.useState();
-    const [review, setReview] = React.useState();
+    const [review, setReview] = React.useState({text:"", author_name:""});
     const [email, setEmail] = React.useState();
-    const [location, setLocation] = React.useState();
+    const [location, setLocation] = React.useState('transparent_background');
     const [date, setDate] = React.useState();
-
+    const refSelf = React.useRef();
 
     const getLocation = async() => {
         return await axios.get(`http://127.0.0.1:5000/location/${location}/image`).then((val)=> {
           // log the current directory
-          
           setImgLink(val.data);
         })
     }
 
     const getReview = async() => {
       return await axios.get(`http://127.0.0.1:5000/location/${location}/best_review`).then((val)=> {
-        setReview(val.data[0]);
-        console.log(review)
+        if(val.data[0] === undefined) 
+          setReview("");
+        else
+          setReview(val.data[0]);
       })
     }
 
     const submitPostcard = async() => {
+      setSearched(true);
       await getLocation();
-      await getReview().then(()=>{
-        console.log(review)
-      })
+      await getReview();
     }
-    const sendPostcard = async () => {
+    const sendPostcard = async() => {
       //send postcard to server
+      return await axios.post(`http://127.0.0.1:5000/post/upload_file`,{jpgLocation:location,text:review.text,author_name:review.author_name});
+    }
+    const tryRequire = () => {
+      try {
+        if (searched === false) 
+          throw new Error("Please search for a location before submitting");
+        return require(`../assets/${location}.jpg`);
+      } catch (e) {
+        return require(`../assets/transparent_background.jpg`);
+      }
     }
     React.useEffect(()=> {
 
     },[])
+        
+    
   return (
     <div style={{backgroundImage:`url(${background})`, minHeight:'100vh'}}>
       <AppBar color="transparent" position="static" >
@@ -65,12 +78,11 @@ export default function CreatePostcard() {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <div style={{display:"flex", alignItems:"center",textAlign:"center",justifyContent:"center",display:'inline-block' }}>
+      <div ref={refSelf} style={{display:"flex", alignItems:"center",textAlign:"center",justifyContent:"center",display:'inline-block' }}>
         <div style={{
             backgroundImage: `url(${postcardBackground})`,
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
-            height: '500px',
             width: '900px',
             marginTop: '50px',
             borderRadius: '10px',
@@ -83,22 +95,23 @@ export default function CreatePostcard() {
                 }}>
                     
                 <div style={{display:'flex'}}>
-                <Typography style={{float:'left',textAlign:'justify', width:'100%',marginLeft:'50px', fontSize:'20px', fontWeight:'bold'}}>{email}</Typography>
-                <Typography style={{float:'left',textAlign:'justify', width:'100%',marginLeft:'50px', fontSize:'20px', fontWeight:'bold'}}>{date}</Typography>
-                <Typography style={{float:'left',textAlign:'justify', width:'100%',marginLeft:'50px', fontSize:'20px', fontWeight:'bold'}}>{location}</Typography>
+                <p style={{float:'left',textAlign:'justify', width:'100%',marginLeft:'50px', fontSize:'20px', fontWeight:'bold'}}>{email}</p>
+                <p style={{float:'left',textAlign:'justify', width:'100%',marginLeft:'50px', fontSize:'20px', fontWeight:'bold'}}>{date}</p>
+                <p style={{float:'left',textAlign:'justify', width:'100%',marginLeft:'50px', fontSize:'20px', fontWeight:'bold'}}>{location!=='transparent_background' ? location : ""}</p>
                 <img style={{maxHeight:'130px'}}src ={tempSeal} />
                 </div>
             <div>
                 <div style={{display:'flex'}}>
-                    <img src={require('../assets/empire state building.jpg')} style={{
-                        height: '300px',
-                        width: '400px',
-                        borderRadius: '10px'}} />
-                    <Typography style={{float:'right',textAlign:'justify', width:'100%',marginLeft:'50px'}}>{`"${review?.text}" -${review?.author_name}`}</Typography>
+                  <img src={tryRequire(`../assets/${location}.jpg`)} 
+                  style={{
+                    height: '350px',
+                    width: '600px',
+                    borderRadius: '10px'}} />
+                    <p style={{float:'right',textAlign:'justify', width:'100%',marginLeft:'50px'}}>{searched ? `"${review?.text}" -${review?.author_name}` : ""}</p>
                     </div>
                 </div>
                 <div style={{justifyContent:'right',textAlign:'right'}}>
-                    Signed: [User Name]
+                    Signed: {localStorage.getItem('token')}
                 </div>
             </div>   
         </div>
@@ -113,6 +126,8 @@ export default function CreatePostcard() {
             marginTop: '50px',
             borderRadius: '10px',
         }}>
+
+
         <Typography style={{textAlign:'center',paddingTop:'100px', fontSize:'30px'}}>Input Values</Typography>
         <div style={{paddingTop:'30px'}}>
         <TextField
@@ -124,7 +139,10 @@ export default function CreatePostcard() {
           <div style={{paddingTop:'30px'}}>
         <TextField
             label='Location'
-            onChange={(e)=>{setLocation(e.target.value)}}
+            onChange={(e)=>{
+              setSearched(false);
+              setReview("");
+              setLocation(e.target.value)}}
             required
           />
           </div>

@@ -15,7 +15,12 @@ import tempLogo from '../assets/temp_logo.png';
 import { useNavigate } from 'react-router-dom';
 
 // if logged in, add home, else return dashboard
-const pages = ['home', ,'dashboard','contacts','Login/Register'];
+var pages;
+if(localStorage.getItem('token') !== null) {
+  pages = ['home','dashboard','contacts',];
+} else {
+  pages = ['home', 'contacts','Login'];
+}
 const settings = ['Logout'];
 
 const ResponsiveAppBar = () => {

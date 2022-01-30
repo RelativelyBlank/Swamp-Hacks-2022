@@ -12,7 +12,7 @@ const Dashboard = () => {
     useEffect(()=> {
       if (window.location.pathname === '/') {
         setBackgroundImage(knightsBackground);
-      }else if(window.location.pathname === '/dashboard') {
+      }else if(window.location.pathname === '/dashboard' || window.location.pathname === '/dashboard/#') {
         setBackgroundImage(dashboardBackground);
       }
     },[navigate]);
@@ -32,7 +32,7 @@ const Dashboard = () => {
               }}>
             <div>
                 <h1 style={{fontWeight:'bold',color:'white'}}>Welcome Back,</h1>
-                <h1 style={{fontWeight:'bold',color:'white'}}>[User]</h1>
+                <h1 style={{fontWeight:'bold',color:'white'}}>{localStorage.getItem('token')}</h1>
                 <div>
                     <Button style={{
                         margin: '5em',

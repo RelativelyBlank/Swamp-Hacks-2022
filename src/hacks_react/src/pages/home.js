@@ -18,6 +18,7 @@ const Home = () => {
         <div style={{textAlign:'center',justifyContent:'center'}}>
             <div style={{backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 100)), 
             url(${backgroundImage})`,
+                height: '100vh',
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
                 }}>

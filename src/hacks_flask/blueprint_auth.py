@@ -35,24 +35,8 @@ def login():
 
 @auth_bp.route('/callback')
 def callback():
-    flow.fetch_token(authorization_response=request.url)
-    if not session['state'] == request.args['state']:
-        abort(500)
-
-    credentials = flow.credentials
-    request_session = requests.session()
-    cached_session = cachecontrol.CacheControl(request_session)
-    token_request = google.auth.transport.requests.Request(session=cached_session)
-
-    id_info = id_token.verify_oauth2_token(
-        id_token=credentials._id_token,
-        request=token_request,
-        audience=GOOGLE_CLIENT_ID
-    )
-    session['email'] = id_info['email']
-    print(session)
-    return id_info
-
+    # redirect to the original page
+    return redirect('http://localhost:3000/dashboard/')
 
 
 @auth_bp.route('/logout')
