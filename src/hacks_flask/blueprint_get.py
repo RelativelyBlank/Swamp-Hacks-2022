@@ -56,3 +56,11 @@ def recover_images_from_firebase(email):
     #   return the images
         return jsonify(images)
     return abort(500)
+
+@get_flask_blueprint.route('/postcard/<postcard>', methods=['GET', 'POST'])
+@cross_origin()
+def get_postcard(postcard):
+    # get the image stored locally and send it to the client
+    # CHECK if request is GET
+    if request.method == 'GET':
+        return send_file('imgs/{}'.format(postcard), mimetype='image/png')

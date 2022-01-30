@@ -18,3 +18,6 @@ def send_message(message, phone_number):
         to=phone_number
     )
     return message.sid
+
+    
+send_message('You were sent a postcard! View it here: https://imgur.com/w6CBQLT', '+19542031833')
